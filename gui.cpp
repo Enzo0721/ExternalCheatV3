@@ -315,15 +315,10 @@ void gui::Render() noexcept
 		if (ImGui::BeginTabItem("visuals"))
 		{
 			
-			if (ImGui::Checkbox("glow", &settings::toggle_glow))
-			{
-				
-			}
-
-			if (ImGui::Checkbox("chams", &settings::toggle_chams))
-			{
-
-			}
+			ImGui::Checkbox("glow", &settings::toggle_glow);
+			ImGui::Checkbox("health glow", &settings::toggle_healthGlow);
+			ImGui::Checkbox("team glow", &settings::toggle_teamGlow);
+			ImGui::Checkbox("chams", &settings::toggle_chams);
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("misc"))
@@ -351,6 +346,12 @@ void gui::Render() noexcept
 			}
 
 			ImGui::ColorEdit4("glow color", settings::glowColor);
+			ImGui::ColorEdit4("team glow color", settings::teamGlowColor);
+			ImGui::ColorEdit3("chams color", settings::chamsColor);
+			const char* glowTypes[] = { "standard", "full bloom", "aura pulse", "outline", "outline pulse"};
+			ImGui::PushItemWidth(200);
+			ImGui::ListBox("glow type", &settings::glowType, glowTypes, IM_ARRAYSIZE(glowTypes), IM_ARRAYSIZE(glowTypes));
+			ImGui::PopItemWidth();
 
 			ImGui::EndTabItem();
 		}
