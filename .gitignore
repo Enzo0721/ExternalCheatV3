@@ -1,0 +1,56 @@
+# Visual Studio
+.vs/
+*.vcxproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+Debug/
+Release/
+x64/
+x86/
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.log
+*.tlog
+*.ipch
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.opendb
+
+# ImGui demo/build artifacts (not source)
+imgui/.vs/
+imgui/x64/
+imgui/Debug/
+imgui/Release/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Others
+*.db
+*.sdf
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Crash dumps
+*.dmp
+
+# Configs and saves (optional, if you don't want to share them)
+*.ecfg

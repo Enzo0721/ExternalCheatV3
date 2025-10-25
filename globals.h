@@ -10,15 +10,15 @@ namespace globals
 
 namespace offsets
 {
-	constexpr ::std::ptrdiff_t dwLocalPlayer = 0xDE997C;
+	constexpr ::std::ptrdiff_t dwLocalPlayer = 0xDEF97C;
 	constexpr ::std::ptrdiff_t m_fFlags = 0x104;
-	constexpr ::std::ptrdiff_t dwForceJump = 0x52BAC28;
+	constexpr ::std::ptrdiff_t dwForceJump = 0x52C0F50;
 	constexpr ::std::ptrdiff_t m_clrRender = 0x70;
 	constexpr ::std::ptrdiff_t m_iGlowIndex = 0x10488;
-	constexpr ::std::ptrdiff_t dwGlowObjectManager = 0x5359980;
+	constexpr ::std::ptrdiff_t dwGlowObjectManager = 0x535FCB8;
 	constexpr ::std::ptrdiff_t m_iTeamNum = 0xF4;
 	constexpr ::std::ptrdiff_t m_Dormant = 0xED;
-	constexpr ::std::ptrdiff_t dwEntityList = 0x4DFEECC;
+	constexpr ::std::ptrdiff_t dwEntityList = 0x4E051DC;
 	constexpr ::std::ptrdiff_t m_bSpottedByMask = 0x980;
 	constexpr ::std::ptrdiff_t m_iHealth = 0x100;
 	constexpr ::std::ptrdiff_t m_bSpotted = 0x93D;

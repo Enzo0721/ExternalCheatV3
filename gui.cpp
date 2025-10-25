@@ -1,7 +1,7 @@
 #include "gui.h"
 #include "imgui/imgui.h"
-#include "imgui/imgui_impl_dx9.h"
-#include "imgui/imgui_impl_win32.h"
+#include "imgui/backends/imgui_impl_dx9.h"
+#include "imgui/backends/imgui_impl_win32.h"
 #include "settings.h"
 #include <filesystem>
 
@@ -310,6 +310,27 @@ void gui::Render() noexcept
 		{
 			ImGui::Checkbox("aimbot", &settings::toggle_aimbot);
 			ImGui::SliderInt("aimbot fov", &settings::aimbotFOV, 0, 180);
+			ImGui::SliderFloat("aimbot smoothness", &settings::aimbotSmoothness, 1, 100);
+			ImGui::SliderFloat("Recoil Assist", &settings::aimbotRecoilAssist, 0.0f, 1.0f, "%.2f");
+			struct BoneOption { const char* name; int index; };
+			static const BoneOption boneOptions[] = {
+				{"Pelvis", 3}, {"Lower Chest", 4}, {"Chest", 5}, {"Upper Chest", 6},
+				{"Neck", 7}, {"Head", 8}, {"Left Hand", 13}, {"Right Hand", 14},
+				{"Left Foot", 39}, {"Right Foot", 42}
+			};
+
+			ImGui::Text("Aimbot Target Bones:");
+			for (const auto& bone : boneOptions) {
+				bool selected = settings::aimbotBone.count(bone.index) > 0;
+				if (ImGui::Checkbox(bone.name, &selected)) {
+					if (selected)
+						settings::aimbotBone.insert(bone.index);
+					else
+						settings::aimbotBone.erase(bone.index);
+				}
+				//arrange in two columns
+				if ((&bone - boneOptions) % 2 == 1) ImGui::SameLine(200);
+			}
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("visuals"))
@@ -335,15 +356,49 @@ void gui::Render() noexcept
 		}
 		if (ImGui::BeginTabItem("config"))
 		{
-			if (ImGui::Button("save config"))
-			{
-				saveConfig();
-			}
-			
-			if (ImGui::Button("load config"))
-			{
-				loadConfig();
-			}
+			static char saveNameBuf[128] = "myconfig";
+            static int selectedSaveIndex = -1;
+            auto files = settings::listConfigFiles();
+
+            ImGui::Separator();
+            ImGui::Text("Configs");
+			ImGui::InputText("##configname", saveNameBuf, sizeof(saveNameBuf));
+            ImGui::SameLine();
+            if (ImGui::Button("Save"))
+            {
+                std::string name = saveNameBuf;
+                if (name.empty()) name = "unnamed";
+                std::string filename = name;
+                if (filename.find(".ecfg") == std::string::npos)
+                    filename += ".ecfg";
+                settings::saveConfig(filename);
+                files = settings::listConfigFiles();
+                selectedSaveIndex = -1;
+            }
+
+            ImGui::Spacing();
+            ImGui::Text("Available saves:");
+            if (!files.empty())
+            {
+                static std::vector<const char*> filePtrs;
+                filePtrs.clear();
+                for (auto& s : files) filePtrs.push_back(s.c_str());
+
+                if (ImGui::ListBox("##savelist", &selectedSaveIndex, filePtrs.data(), (int)filePtrs.size(), 6))
+                {
+                    // selection changed
+                }
+
+                ImGui::SameLine();
+                if (ImGui::Button("Load") && selectedSaveIndex >= 0 && selectedSaveIndex < (int)files.size())
+                {
+                    settings::loadConfigFrom(files[selectedSaveIndex]);
+                }
+            }
+            else
+            {
+                ImGui::TextDisabled("No .ecfg saves found");
+            }
 
 			ImGui::ColorEdit4("glow color", settings::glowColor);
 			ImGui::ColorEdit4("team glow color", settings::teamGlowColor);

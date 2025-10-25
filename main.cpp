@@ -48,6 +48,8 @@ int __stdcall wWinMain(
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 
+	gui::exit = false;
+
 	gui::DestroyImGui();
 	gui::DestroyDevice();
 	gui::DestroyWindow();
