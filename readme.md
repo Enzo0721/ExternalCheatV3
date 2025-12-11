@@ -1,6 +1,6 @@
 # ExternalCheatV3
 
-An external cheat utility built with C++ and ImGui, designed for educational purposes and game modification research.
+An external cheat utility for CS:GO built with C++ and ImGui, designed for educational purposes and game modification research.
 
 ## Features
 
